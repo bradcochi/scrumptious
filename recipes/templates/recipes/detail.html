@@ -1,0 +1,48 @@
+{% load static %}
+<!doctype html>
+<html>
+    <head>
+        <title>
+            {{ recipe_object.title }} -
+            Scrumptious Recipes
+        </title>
+        <link rel="stylesheet" href="{% static 'css/recipes.css' %}">
+    </head>
+    <body>
+        <header>
+            <nav>
+                <a href="{% url 'recipe_list' %}">Main page</a>
+                <a href="{% url 'edit_recipe' recipe_object.id %}">Edit recipe</a></nav>
+        </header>
+        <main>
+            <h1>{{ recipe_object.title }}</h1>
+            <img src="{{ recipe_object.picture }}">
+            <div>4.3 stars</div>
+                <p>{{ recipe_object.description }}</p>
+            <h2>Ingredients</h2>
+            <table>
+                <tr><th>Amount</th><th>Food item</th>
+                    <tbody>
+                      {% for ingredient in recipe_object.ingredients.all %}
+                        <tr>
+                            <td>{{ ingredient.amount }}</td>
+                            <td>{{ ingredient.food_item }}</td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+            </table>
+            <h2>Steps</h2>
+                <ol>
+                    {% for step in recipe_object.steps.all %}
+                        <li>{{ step.instruction }}</li>
+                    {% endfor %}
+                </ol>
+            <div>
+                <p>{{ recipe_object.created_on|date:"M. d, Y" }}</p>
+            </div>
+        </main>
+        <footer>
+            <p>Made with love by Scrumptious Recipes</p>
+        </footer>
+    </body>
+</html>
